@@ -1,22 +1,21 @@
 <%- include("header") -%>
-   
 <div class="box">  
-    <h1>ToDo-Liste</h1>    
+  <h1>ToDo Liste</h1>  
   <% for(var i=0; i<newListItem.length; i++) { %>
     <form action="/delete" method="post">
       <div class="item">
-
-          <input type="checkbox" name="checkbox" value="<%= newListItem[i]._id %>" onChange="this.form.submit()" id="checkbox">            
-          <label for="checkbox"></label>
-
         <p><%= newListItem[i].name %></p>
+        <button type="checkbox" name="checkbox" value="<%= newListItem[i]._id %>" onClick="this.form.submit()" id="checkbox"></button>            
+        <label for="checkbox"></label>
       </div>
-      <hr>
     </form>
   <% } %>
-
-  <form class="item" action="/" method="post">
-    <input type="text" name="addbtn" placeholder="new"><hr>
-    <button id="b" type="submit"><span id="s2">+</span></button> 
+  <div class="addTask">
+  <form class="addNew" action="/" method="post">
+    
+      <input autofocus type="text" id="taskInput" name="addbtn" placeholder="new">
+      <button id="b" class="add_btn" type="submit"><span id="s2">+</span></button>
+   
   </form>
+</div> 
 </div>

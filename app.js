@@ -8,18 +8,16 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose.connect("mongodb://localhost:27017/todoDB");
-
+ 
 const itemSchema = new mongoose.Schema({
   name: String,
 });
 
 const Item = mongoose.model("Item", itemSchema);
 
-const Item1 = new Item({ name: "First Task" });
-const Item2 = new Item({ name: "Second Task" });
-const Item3 = new Item({ name: "Third Task" });
+const Item1 = new Item({ name: "Erstelle eine Aufgabe" });
 
-const d = [Item1, Item2, Item3];
+const d = [Item1];
 
 app.get("/", function (req, res) {
   Item.find({})
@@ -29,7 +27,10 @@ app.get("/", function (req, res) {
       } else {
         res.render("list", { newListItem: f });
       }
-    })
+    }) 
+    // .then(() => {
+    //   res.redirect("/");
+    // })
     .catch((err) => {
       console.log(err);
     });

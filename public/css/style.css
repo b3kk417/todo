@@ -1,45 +1,81 @@
+* {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background-color: #73c6c6;
   background-image: linear-gradient(45deg, #73c6c6, #c673c6);
   filter: brightness(1.2);
   max-width: 100%;
   height: 100vh;
-  font-family: sans-serif;
 }
 
 .box {
-  background: linear-gradient(to right top, rgba(51, 51, 51, 0.15), rgba(51, 51, 51, 0.5));
-  padding: 20px;
-  color: #fff;
-  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
-}
-
-.box1 {
-  background-color: white;
-}
-
-#heading {
-  background: linear-gradient(to right top, rgba(51, 51, 51, 0.15), rgba(51, 51, 51, 0.5));
-  color: #fff;
-  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
-  padding: 20px;
-}
-
-.round {
-  position: relative;
-}
-.round input[type="checkbox"]:checked + label {
-  background-color: #7037e9;
-  border-color: #7037e9;
-}
-.round input[type="checkbox"]:checked + label:after {
-  opacity: 1;
+  text-align: center;
 }
 
 .item {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6.8px);
+  -webkit-backdrop-filter: blur(6.8px);
+  color: #333;
+  margin: auto;
+  padding: 10px 20px;
+  margin-bottom: 6px;
+  max-width: 80%;
+  min-height: 30px;
   display: flex;
+  align-items: center;
 }
 
-p {
-  padding-left: 15px;
+.item p {
+  text-align: left;
+}
+
+#checkbox{
+  height: 100%;
+  width: 75px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  border: none;
+  background-color: #333;
+  font-size: 30px;
+  color: #00ff0d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to right, #333 50%, #00ff0d 50%);
+  background-size: 200% 100%;
+  background-position:left bottom;
+  margin-left:10px;
+  transition:all 0.2s ease;
+}
+
+#checkbox:hover {
+  font-size: 42px;
+  background-position:right bottom;
+}
+
+.addTask {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6.8px);
+  -webkit-backdrop-filter: blur(6.8px);
+  color: #333;
+  margin: auto;
+  max-width:  100%;
+  min-height: 30px;
+  display: block;
+}
+
+.add_btn {
+  margin: 0px;
 }
