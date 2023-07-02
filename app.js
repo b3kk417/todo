@@ -125,7 +125,6 @@ app.post("/delete", function (req, res) {
 });
 
 // NUTZER REGISTRIEREN
-
 app.post("/register", function (req, res) {
   const { username, password } = req.body;
   const newUser = new User({ username, password });
@@ -142,7 +141,6 @@ app.post("/register", function (req, res) {
 });
 
 // NUTZER LOGIN
-
 app.post("/login", function (req, res) {
   const { username, password } = req.body;
   User.findOne({ username, password })
@@ -161,11 +159,7 @@ app.post("/login", function (req, res) {
     });
 });
 
-
-
-
 // LISTENER PORT 3000
-
 app.listen(3000, function () {
   console.log("Server läuft auf Port 3000.");
 });
