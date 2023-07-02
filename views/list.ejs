@@ -1,6 +1,7 @@
 <%- include("header") -%>
+
 <div class="box">
-  <h1>ToDo Liste von: <%= username %></h1>
+  <h1>Was steht heute an <span class="usr"><%= username %></span>?</h1>
   <% for(var i=0; i<items.length; i++) { %>
     <form action="/delete" method="post">
       <div class="item">
@@ -10,13 +11,15 @@
       </div>
     </form>
   <% } %>
+
   <div class="addTask">
     <form class="addNew" action="/add" method="post">
-      <input autofocus type="text" id="taskInput" name="addbtn" placeholder="new">
+      <input autofocus type="text" id="taskInput" name="addbtn" placeholder="add new task">
       <button id="b" class="add_btn" type="submit"><span id="s2">+</span></button>
-    </form>
+  </form>
   </div>
+
   <form action="/login" method="post">
-    <button type="button" onClick="this.form.submit()">logout</button>
+    <button class="logout_btn" type="button" onClick="this.form.submit()">logout</button>
   </form>
 </div>

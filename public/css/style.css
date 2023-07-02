@@ -5,19 +5,24 @@
 }
 
 body {
-  background-color: #73c6c6;
-  background-image: linear-gradient(45deg, #73c6c6, #c673c6);
+  background-color: #dadada;
   filter: brightness(1.2);
   max-width: 100%;
   height: 100vh;
+  color: #333;
 }
 
 .box {
   text-align: center;
 }
 
+.box h1{
+  margin-bottom: 30px;
+  margin-top: 20px;
+}
+
 .item {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(21, 208, 255, 0.288);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(6.8px);
@@ -51,11 +56,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(to right, #333 50%, #00ff0d 50%);
+  background: linear-gradient(to right, #33333341 50%, #00ff0d6c 50%);
   background-size: 200% 100%;
   background-position:left bottom;
   margin-left:10px;
   transition:all 0.2s ease;
+  cursor: pointer;
 }
 
 #checkbox:hover {
@@ -63,19 +69,74 @@ body {
   background-position:right bottom;
 }
 
+#taskInput {
+  border: none;
+  min-height: 30px;
+  background-color: transparent;
+  border-bottom: solid #33333346 1px;
+  width: 200px;
+}
+
+textarea:focus, input:focus{
+  outline: none;
+}
+
 .addTask {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 163, 228, 0.25);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(6.8px);
   -webkit-backdrop-filter: blur(6.8px);
   color: #333;
   margin: auto;
-  max-width:  100%;
+  margin-top: 30px;
+  max-width:  80%;
   min-height: 30px;
-  display: block;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
 }
 
 .add_btn {
   margin: 0px;
+  height: 100%;
+  width: 75px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  border: none;
+  background-color: #333;
+  font-size: 30px;
+  color: #00ff0d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to right, #33333341 50%, #00ff0d6c 50%);
+  background-size: 200% 100%;
+  background-position:left bottom;
+  margin-left:10px;
+  transition:all 0.2s ease;
+  cursor: pointer;
+}
+
+.logout_btn {
+  height: 30px;
+  width: 75px;
+  height: 30px;
+  border-radius: 16px;
+  border: none;
+  background-color: #ff000085;
+  font-size: 16px;
+  color: #ffffff;
+  align-items: center;
+  justify-content: center;
+  transition:all 0.2s ease;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.usr {
+  color: rgb(115, 113, 216);
 }

@@ -8,7 +8,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(
+app.use( 
   session({
     secret: "SecretCookie",
     resave: false,
@@ -46,7 +46,7 @@ app.get("/login", function (req, res) {
 });
 
 app.get("/register", function (req, res) {
-  res.render("register");
+  res.render("register"); 
 });
 
 // Umleitung auf die persönliche ToDo-Liste
@@ -62,29 +62,21 @@ app.get("/personal-todo-list", function (req, res) {
 
     Item.find({ userID: userId }) 
       .then((items) => {
-        if (items.length === 0) {
-          const newItem = new Item({
-            name: "Erstelle deine erste Aufgabe!",
-            userID: userId
-          });
-          return newItem.save();
-        } else {
-          return items;
-        }
+        return items;
       })
       .then((items) => {
         res.render("list", { items: items, username: username });
       })
       .catch((err) => {
         console.log(err);
-        res.redirect("/");
+        res.redirect("/login");
       });
   } else {
     res.redirect("/login");
   }
 });
 
-// HINZUFÜGEN VON NEUEN TASKS
+// HINZUFÜGEN VON NEUEN TASKS 
 app.post("/add", function (req, res) {
   if (req.session.user) {
     var i = req.body.addbtn;
@@ -96,13 +88,10 @@ app.post("/add", function (req, res) {
       .save()
       .then(() => {
         res.redirect("/personal-todo-list");
-        console.log("Task wurde gespeichert");
-        console.log(newItem.name, newItem.userID);
-        console.log(i, req.session.user._id);
       })
       .catch((err) => {
         console.log(err);
-        res.redirect("/");
+        res.redirect("/personal-todo-list");
       });
   } else {
     res.redirect("/login");
@@ -120,7 +109,7 @@ app.post("/delete", function (req, res) {
     })
     .catch((err) => {
       console.log(err);
-      res.redirect("/");
+      res.redirect("/login");
     });
 });
 
