@@ -140,3 +140,40 @@ textarea:focus, input:focus{
 .usr {
   color: rgb(115, 113, 216);
 }
+
+
+/* LOGIN SCREEN */
+
+.login {
+  width: 80%;
+  text-align: center;
+  display: block;
+  margin: auto;
+}
+
+.login h1{
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.login input {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: rgb(0, 43, 92);
+  border-radius: 16px;
+  border: none;
+  font-weight: bold;
+  color: #ffffff;
+  width: 50%;
+}
+
+.login button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: rgb(0, 43, 92);
+  border-radius: 16px;
+  border: none;
+  font-weight: bold;
+  color: #ffffff;
+  width: 30%;
+}
