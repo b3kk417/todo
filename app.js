@@ -8,9 +8,13 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const crypto = require("crypto");
+const randomBytes = crypto.randomBytes(32);
+const secretKey = randomBytes.toString("hex");
+
 app.use( 
   session({
-    secret: "SecretCookie",
+    secret: secretKey,
     resave: false,
     saveUninitialized: false
   })
@@ -48,6 +52,10 @@ app.get("/login", function (req, res) {
 app.get("/register", function (req, res) {
   res.render("register"); 
 });
+
+app.get("/logout", function(req, res) {
+  res.render("login");
+})
 
 // Umleitung auf die persönliche ToDo-Liste
 app.get("/list", function (req, res) {
@@ -101,7 +109,6 @@ app.post("/add", function (req, res) {
 // LÖSCHEN VON TASKS
 app.post("/delete", function (req, res) {
   const itemId = req.body.checkbox;
-
   Item.findByIdAndRemove(itemId)
     .then(() => {
       console.log("Eintrag erfolgreich gelöscht");
@@ -111,7 +118,7 @@ app.post("/delete", function (req, res) {
       console.log(err);
       res.redirect("/login");
     });
-});
+  });
 
 // NUTZER REGISTRIEREN
 app.post("/register", function (req, res) {
@@ -146,6 +153,21 @@ app.post("/login", function (req, res) {
       console.log("Anmeldung nicht möglich");
       res.redirect("/login");
     });
+});
+
+app.post("/logout", (req, res) => {
+  if (req.session) {
+    req.session.destroy(err => {
+      if (err) {
+        res.status(400).send('Unable to log out')
+      } else {
+        console.log("Logout successful");
+        res.redirect(303, "/login");
+      }
+    }); 
+  } else {
+    res.redirect(303, "/login");
+  }
 });
 
 // LISTENER PORT 3000
