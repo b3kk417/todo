@@ -1,0 +1,11 @@
+<%- include("header") -%>
+<div class="login">
+    <h1>Login Screen</h1>
+    <form action="/login" method="POST">
+        <input type="text" name="username" placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
+        <button type="submit">Login</button>
+    </form>
+    <p>Noch keinen Account= Registrieren Sie sich hier:</p>
+    <a href="/register"><button>Registrieren</button></a>
+</div>
