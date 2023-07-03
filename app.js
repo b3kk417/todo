@@ -12,9 +12,9 @@ const crypto = require("crypto");
 const randomBytes = crypto.randomBytes(32);
 const secretKey = randomBytes.toString("hex");
 
-app.use( 
+app.use(
   session({
-    secret: secretKey,
+    secret: secretKey, //crypto
     resave: false,
     saveUninitialized: false
   })
@@ -50,10 +50,10 @@ app.get("/login", function (req, res) {
 });
 
 app.get("/register", function (req, res) {
-  res.render("register"); 
+  res.render("register");
 });
 
-app.get("/logout", function(req, res) {
+app.get("/logout", function (req, res) {
   res.render("login");
 })
 
@@ -68,7 +68,7 @@ app.get("/personal-todo-list", function (req, res) {
     const userId = req.session.user._id;
     const username = req.session.user.username;
 
-    Item.find({ userID: userId }) 
+    Item.find({ userID: userId })
       .then((items) => {
         return items;
       })
@@ -118,7 +118,7 @@ app.post("/delete", function (req, res) {
       console.log(err);
       res.redirect("/login");
     });
-  });
+});
 
 // NUTZER REGISTRIEREN
 app.post("/register", function (req, res) {
@@ -164,7 +164,7 @@ app.post("/logout", (req, res) => {
         console.log("Logout successful");
         res.redirect(303, "/login");
       }
-    }); 
+    });
   } else {
     res.redirect(303, "/login");
   }
