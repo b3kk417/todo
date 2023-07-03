@@ -2,11 +2,11 @@
 
 <div class="box">
   <h1>Was steht heute an <span class="usr"><%= username %></span>?</h1>
-  <% for(var i=0; i<items.length; i++) { %>
-    <form action="/delete" method="post">
+  <% for(var i=0; i<activeItems.length; i++) { %>
+    <form action="/move" method="post">
       <div class="item">
-        <p><%= items[i].name %></p>
-        <button type="checkbox" name="checkbox" value="<%= items[i]._id %>" onClick="this.form.submit()" id="checkbox"></button>
+        <p><%= activeItems[i].name %></p>
+        <button type="checkbox" name="checkbox" value="<%= activeItems[i]._id %>" onClick="this.form.submit()" id="checkbox"></button>
         <label for="checkbox"></label>
       </div>
     </form>
@@ -22,4 +22,16 @@
   <form action="/logout" method="post">
     <button class="logout_btn" type="button" onClick="this.form.submit()">logout</button>
   </form>
+
+  <h2>Erledigt</h2>    
+    <% for(var i=0; i<inactiveItems.length; i++) { %>
+    <form action="/delete" method="post">
+      <div class="item">
+        <p><%= inactiveItems[i].name %></p>
+        <button type="checkbox" name="checkbox" value="<%= inactiveItems[i]._id %>" onClick="this.form.submit()" id="checkbox"></button>
+        <label for="checkbox"></label>
+      </div>
+    </form>
+  <% } %>
+
 </div>

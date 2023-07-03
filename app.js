@@ -27,6 +27,7 @@ mongoose.connect("mongodb://localhost:27017/todoDB", {
 
 const itemSchema = new mongoose.Schema({
   name: String,
+  isActive: Boolean,
   userID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
@@ -70,10 +71,19 @@ app.get("/personal-todo-list", function (req, res) {
 
     Item.find({ userID: userId })
       .then((items) => {
-        return items;
+        const activeItems = items.filter((item) => item.isActive === true);
+        const inactiveItems = items.filter((item) => item.isActive === false);
+        return {
+          activeItems: activeItems,
+          inactiveItems: inactiveItems,
+        };
       })
-      .then((items) => {
-        res.render("list", { items: items, username: username });
+      .then((filteredItems) => {
+        res.render("list", {
+          activeItems: filteredItems.activeItems,
+          inactiveItems: filteredItems.inactiveItems,
+          username: username,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -90,6 +100,7 @@ app.post("/add", function (req, res) {
     var i = req.body.addbtn;
     const newItem = new Item({
       name: i,
+      isActive: true,
       userID: req.session.user._id
     });
     newItem
@@ -112,6 +123,28 @@ app.post("/delete", function (req, res) {
   Item.findByIdAndRemove(itemId)
     .then(() => {
       console.log("Eintrag erfolgreich gelöscht");
+      res.redirect("/personal-todo-list");
+    })
+    .catch((err) => {
+      console.log(err);
+      res.redirect("/login");
+    });
+});
+
+// MOVE VON TASKS
+app.post("/move", function (req, res) {
+  const itemId = req.body.checkbox;
+  Item.findById(itemId)
+    .then((item) => {
+      if (item) {
+        item.isActive = false;
+        return item.save();
+      } else {
+        throw new Error("item nicht gefunden");
+      }
+    })
+    .then(() => {
+      console.log("Eintrag erfolgreich verschoben");
       res.redirect("/personal-todo-list");
     })
     .catch((err) => {
@@ -169,6 +202,9 @@ app.post("/logout", (req, res) => {
     res.redirect(303, "/login");
   }
 });
+
+
+
 
 // LISTENER PORT 3000
 app.listen(3000, function () {
