@@ -233,8 +233,6 @@ app.post("/fileOps", function(req, res){
       user.save()
           .then(() => {
           updateActiveFile(fileID);
-
-
          res.redirect("/dashboard");
         })
         .catch((err) => {
@@ -257,24 +255,6 @@ app.post("/fileOps", function(req, res){
     res.redirect("/dashboard");
     }
   }});
-
-
-
-
-// LÖSCHEN VON FILES
-app.post("/deleteFile", function(req, res) {
-
-  const fileID = req.body.delete;
-  File.findByIdAndRemove(fileID)
-  .then(() => {
-    console.log("File erfolgreich gelöscht");
-    res.redirect("/dashboard");
-  })
-  .catch((err) => {
-    console.log(err);
-    res.redirect("/login");
-  });
-})
 
 // MOVE TASKS ZU ERLEDIGT
 app.post("/move", function (req, res) {
