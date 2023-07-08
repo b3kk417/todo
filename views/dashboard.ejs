@@ -1,0 +1,41 @@
+<%- include("header") -%>
+<%- include("nav") -%>
+
+<div class="dashboard">
+
+    <h1><%= username %>'s Dashboard</h1>
+    <h2>Listen</h2>
+
+    <h3>ausgewählte Liste: 
+      <% if (typeof fileName !== 'undefined'){ %> 
+        <%= fileName %>
+      <% } else { %>
+        <%= "Keine Liste ausgewählt." %>
+      <% } %>
+      </h3>
+
+    <!-- Add new File -->
+      
+    <div class="addTask">
+      <form class="addNew" action="/addFile" method="post">
+        <input autofocus type="text" id="taskInput" name="filename" placeholder="Neue Liste">
+        <button id="b" class="add_btn" type="submit"><span id="s2">+</span></button>
+      </form>
+    </div>
+
+    <!-- Show file List -->
+
+    <% for(var ff=0; ff<count; ff++) { %>
+      <form action="/fileOps" method="post">
+        <div class="item" id="listItems">
+          <button type="submit" name="checkbox" value="select" onClick="this.form.submit()">Select</button>
+          <input type="hidden" name="fileID" value="<%= files[ff]._id %>">
+            <p><%= files[ff].name %></p>
+          <button type="submit" name="checkbox" value="delete" onClick="this.form.submit()" id="checkbox"></button>
+        </div>
+      </form>
+    <% } %>
+
+
+
+</div>

@@ -1,0 +1,17 @@
+//FROM DASHBOARD
+<form action="/logout" method="post">
+    <button class="logout_btn" type="button" onClick="this.form.submit()">logout</button>
+</form>
+
+
+
+//FROM DASHBOARD
+<% for(var ff=0; ff<files.length; ff++) { %>
+    <form action="/delete" method="post">
+      <div class="item" id="listItems">
+        <button class="listItem" value="<%= files[ff]._id %>" onClick=""><p><%= files[ff].name %></p></button>
+        <button type="checkbox" name="checkbox" value="<%= files[ff]._id %>" onClick="this.form.submit()" id="checkbox"></button>
+        <label for="checkbox"></label>
+      </div>
+    </form>
+  <% } %>

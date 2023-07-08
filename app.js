@@ -36,11 +36,31 @@ const itemSchema = new mongoose.Schema({
 
 const userSchema = new mongoose.Schema({
   username: String,
-  password: String
+  password: String,
+  activeFile: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "File",
+    unique: true,
+  }
 });
+ 
+const fileSchema = new mongoose.Schema({
+  name: String,
+  isActive: Boolean,
+  userID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  }
+}) 
 
 const Item = mongoose.model("Item", itemSchema);
 const User = mongoose.model("User", userSchema);
+const File = mongoose.model ("File", fileSchema);
+
+// User.prototype.save = function() {
+//   return this.save();
+// };
+
 
 app.get("/", function (req, res) {
   res.render("login");
@@ -58,9 +78,54 @@ app.get("/logout", function (req, res) {
   res.render("login");
 })
 
+// Umleitung auf CREATE LIST
+app.get("/addList", function (req, res) {
+  res.redirect("addList");
+});
+
+
+
+
 // Umleitung auf die persönliche ToDo-Liste
 app.get("/list", function (req, res) {
   res.redirect("/personal-todo-list");
+});
+
+app.get("/dashboard", function(req, res) {
+  if (req.session.user) {
+    const userID = req.session.user._id;
+    const username = req.session.user.username;
+
+    File.find({userID:userID})
+      .then((files) => {
+        const count = files.length;
+        res.render("dashboard", {
+          files: files,
+          username: username,
+          count: count,
+        });
+      })
+      .catch((err)=> {
+        console.log(err);
+        res.redirect("login");
+      })
+  } else {
+    res.redirect("/login");
+  }
+});
+
+// LÖSCHEN VON TASKS
+app.post("/delete", function (req, res) {
+  const itemId = req.body.checkbox;
+  Item.findByIdAndRemove(itemId)
+    .then(() => {
+      console.log("Eintrag erfolgreich gelöscht");
+      res.redirect("/personal-todo-list");
+    })
+    .catch((err) => {
+      console.log(err);
+      res.redirect("/login");
+    });
 });
 
 // Anzeigen der persönlichen ToDo-Liste für den eingeloggten Benutzer
@@ -94,6 +159,7 @@ app.get("/personal-todo-list", function (req, res) {
   }
 });
 
+
 // HINZUFÜGEN VON NEUEN TASKS 
 app.post("/add", function (req, res) {
   if (req.session.user) {
@@ -117,21 +183,100 @@ app.post("/add", function (req, res) {
   }
 });
 
-// LÖSCHEN VON TASKS
-app.post("/delete", function (req, res) {
-  const itemId = req.body.checkbox;
-  Item.findByIdAndRemove(itemId)
+// ADDFILE
+app.post("/addFile", function (req, res) {
+  if (req.session.user) {
+    var j = req.body.filename;
+    const newFile = new File({
+      name: j,
+      userID: req.session.user._id
+    });
+    newFile
+      .save()
+      .then(() => {
+        console.log("add new file");
+        console.log(j);
+        res.redirect("/dashboard");
+      })
+      .catch((err) => {
+        console.log(err);
+        res.redirect("/dashboard");
+      });
+  } else {
+    res.redirect("/login");
+  }
+});
+
+
+
+
+
+function updateActiveFile(fileID) {
+  User.updateOne({ activeFile: fileID }, { activeFile: fileID })
     .then(() => {
-      console.log("Eintrag erfolgreich gelöscht");
-      res.redirect("/personal-todo-list");
+      console.log("Aktive Datei erfolgreich aktualisiert");
     })
     .catch((err) => {
       console.log(err);
-      res.redirect("/login");
     });
-});
+}
 
-// MOVE VON TASKS
+app.post("/fileOps", function(req, res){
+  if (req.session.user) {
+    var currOps = req.body.checkbox;
+    var fileID = req.body.fileID;
+    var user = new User(req.session.user);
+
+    if (currOps === "select") {
+
+      user.activeFile = fileID;
+      user.save()
+          .then(() => {
+          updateActiveFile(fileID);
+
+
+         res.redirect("/dashboard");
+        })
+        .catch((err) => {
+          console.log(err);
+          res.redirect("/dashboard");
+        });
+    } else if (currOps === "delete") {
+      File.findByIdAndRemove(fileID)
+      .then(() => {
+        console.log(fileID + "erfolgreich gelöscht");
+        res.redirect("/dashboard");
+      })
+      .catch((err) => {
+        console.log(err);
+        res.redirect("/login");
+      });
+    } else {
+      console.log(fileID);
+      console.log(currOps);
+    res.redirect("/dashboard");
+    }
+  }});
+
+
+
+
+// LÖSCHEN VON FILES
+app.post("/deleteFile", function(req, res) {
+
+  const fileID = req.body.delete;
+  File.findByIdAndRemove(fileID)
+  .then(() => {
+    console.log("File erfolgreich gelöscht");
+    res.redirect("/dashboard");
+  })
+  .catch((err) => {
+    console.log(err);
+    res.redirect("/login");
+  });
+})
+
+// MOVE TASKS ZU ERLEDIGT
 app.post("/move", function (req, res) {
   const itemId = req.body.checkbox;
   Item.findById(itemId)
@@ -202,6 +347,10 @@ app.post("/logout", (req, res) => {
     res.redirect(303, "/login");
   }
 });
+
+// app.post("/dashboard", (req, res) => {
+  
+// })
 
 
 

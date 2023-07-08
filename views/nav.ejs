@@ -1,0 +1,12 @@
+<%- include("header") -%>
+<div class="nav">
+    <form action="/dashboard" method="get">
+        <button class="navItemL" type="button" onClick="this.form.submit()">dashboard</button>
+    </form>
+    <form action="/personal-todo-list" method="get">
+        <button class="navItemL taskview" type="button" onClick="this.form.submit()">taskview</button>
+    </form>
+    <form action="/logout" method="post">
+        <button class="navItemR" type="button" onClick="this.form.submit()">logout</button>
+    </form>
+</div>
